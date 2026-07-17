@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "CoursePower Extensions",
-  "version": "0.1.0",
+  "version": "    0.1.0",
   "description": "CoursePowerの拡張機能です。Firefoxのみ動作します。",
   "browser_action": {
     "default_title": "CoursePower",
@@ -34,10 +34,13 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "info@kinokoroom.net",
-      "strict_min_version": "109.0",
+      "strict_min_version": "140.0",
       "data_collection_permissions": {
         "required": ["none"]
       }
+    },
+    "gecko_android": {
+      "strict_min_version": "142.0"
     }
   }
 }
