@@ -5,15 +5,15 @@
   "description": "CoursePowerの拡張機能です。Firefoxのみ動作します。",
   "browser_action": {
     "default_title": "CoursePower",
-    "default_popup": "popup.html"
+    "default_popup": "src/popup/popup.html"
   },
   "options_ui": {
-    "page": "options.html",
+    "page": "src/options/options.html",
     "open_in_tab": false
   },
   "background": {
     "scripts": [
-      "background.js"
+      "src/background/background.js"
     ]
   },
   "content_scripts": [
@@ -22,7 +22,7 @@
         "*://*/*"
       ],
       "js": [
-        "content.js"
+        "src/content/content.js"
       ],
       "run_at": "document_idle",
       "all_frames": true
@@ -33,7 +33,7 @@
   ],
   "browser_specific_settings": {
     "gecko": {
-      "id": "tsufuj6e2@mozmail.com",
+      "id": "info@kinokoroom.net",
       "strict_min_version": "109.0"
     }
   }
