@@ -47,6 +47,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'workflow_dispatch' && github.event.inputs.tag_name != '')
         uses: softprops/action-gh-release@v2
         with:
+          name: "Release: ${{ github.event.inputs.tag_name || github.ref_name }}"
           tag_name: ${{ github.event.inputs.tag_name || github.ref_name }}
           files: coursepower-extensions.zip
           generate_release_notes: true
