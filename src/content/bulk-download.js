@@ -50,24 +50,12 @@ function checkBulkReadWorkflow() {
   const tryStep = () => {
     if (sessionStorage.getItem("cp_bulk_read_active") !== "true") return true;
 
-    const downloadLink = document.querySelector('a[onclick*="downloadFile("]');
-    if (downloadLink) {
-      if (sessionStorage.getItem("cp_current_download") === window.location.href) {
-        updatePanelStatus("処理済みの詳細ページです。戻ります...");
-        sessionStorage.removeItem("cp_current_download");
-        setTimeout(() => goBackFromDetail(), 1000);
-        return true;
-      }
-
-      updatePanelStatus("ダウンロード詳細ページ処理中...");
-      sessionStorage.setItem("cp_current_download", window.location.href);
-      downloadLink.click();
-      setTimeout(() => goBackFromDetail(), 2500);
-      return true;
-    }
-
     const allLinks = parseMaterialLinks();
+
     if (allLinks.length > 0) {
+      sessionStorage.removeItem("cp_detail_processed");
+      sessionStorage.removeItem("cp_current_download");
+
       const targetLinks = getTargetBulkLinks();
       if (targetLinks.length > 0) {
         updatePanelStatus(`自動処理中... (残り: ${targetLinks.length})`);
@@ -95,6 +83,39 @@ function checkBulkReadWorkflow() {
       }
       return true;
     }
+
+    if (sessionStorage.getItem("cp_detail_processed") === "true") {
+      return true;
+    }
+
+    const downloadLinks = Array.from(document.querySelectorAll('a[onclick*="downloadFile("]'));
+    if (downloadLinks.length > 0) {
+      sessionStorage.setItem("cp_detail_processed", "true");
+      updatePanelStatus(`詳細ページ処理中... (${downloadLinks.length}件のファイル)`);
+
+      downloadLinks.forEach((link, index) => {
+        setTimeout(() => {
+          link.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true, view: window }));
+        }, index * 1000);
+      });
+
+      setTimeout(() => goBackFromDetail(), downloadLinks.length * 1000 + 1500);
+      return true;
+    }
+
+    const backBtn = Array.from(document.querySelectorAll('a, input, button')).find((el) => {
+      const txt = el.textContent || el.value || "";
+      const clk = el.getAttribute('onclick') || "";
+      return txt.includes('戻る') || clk.includes('back');
+    });
+
+    if (backBtn) {
+      sessionStorage.setItem("cp_detail_processed", "true");
+      updatePanelStatus("ファイルなし。戻ります...");
+      setTimeout(() => goBackFromDetail(), 1000);
+      return true;
+    }
+
     return false;
   };
 
@@ -220,6 +241,7 @@ function setupCorsCollBulkDownloadPanel() {
       sessionStorage.removeItem("cp_bulk_read_mode");
       sessionStorage.removeItem("cp_bulk_processed");
       sessionStorage.removeItem("cp_current_download");
+      sessionStorage.removeItem("cp_detail_processed");
       button.disabled = false;
       button.style.opacity = "1";
       allBtn.disabled = false;
