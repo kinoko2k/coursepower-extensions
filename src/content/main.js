@@ -22,9 +22,11 @@ function installUrlChangeHooks() {
   window.addEventListener(URL_CHANGE_EVENT, () => {
     runAutoLogin();
     setupCorsCollBulkDownloadPanel();
+    if (typeof runSessionTimer === "function") runSessionTimer();
   });
 }
 
 installUrlChangeHooks();
 runAutoLogin();
 setupCorsCollBulkDownloadPanel();
+if (typeof runSessionTimer === "function") runSessionTimer();

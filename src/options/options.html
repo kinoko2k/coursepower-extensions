@@ -91,7 +91,18 @@
           <input id="autoLoginEnabled" name="autoLoginEnabled" type="checkbox" />
           <label for="autoLoginEnabled">自動ログインを有効にする</label>
         </div>
-        <button type="submit">保存</button>
+
+        <h2 style="font-size: 16px; margin-top: 24px; border-top: 1px solid #eee; padding-top: 16px;">セッションタイムアウト警告</h2>
+        <div class="field checkbox">
+          <input id="sessionTimerEnabled" name="sessionTimerEnabled" type="checkbox" />
+          <label for="sessionTimerEnabled">タイムアウト警告を有効にする</label>
+        </div>
+        <div class="field">
+          <label for="sessionTimeout">タイムアウト時間 (分)</label>
+          <input id="sessionTimeout" name="sessionTimeout" type="number" min="1" value="30" style="width: 100%; padding: 8px 10px; border: 1px solid #d0d0d0; border-radius: 6px; box-sizing: border-box;" />
+        </div>
+
+        <button type="submit" style="margin-top: 12px;">保存</button>
       </form>
       <p id="status"></p>
     </main>
