@@ -6,6 +6,7 @@ const passwordInput = document.getElementById("password");
 const autoLoginEnabledInput = document.getElementById("autoLoginEnabled");
 const sessionTimerEnabledInput = document.getElementById("sessionTimerEnabled");
 const sessionTimeoutInput = document.getElementById("sessionTimeout");
+const autoOpenAccordionInput = document.getElementById("autoOpenAccordion");
 const statusElement = document.getElementById("status");
 
 const DEFAULT_SETTINGS = {
@@ -14,7 +15,8 @@ const DEFAULT_SETTINGS = {
   password: "",
   autoLoginEnabled: false,
   sessionTimerEnabled: true,
-  sessionTimeout: 30
+  sessionTimeout: 30,
+  autoOpenAccordion: false
 };
 
 async function loadSettings() {
@@ -25,6 +27,7 @@ async function loadSettings() {
   autoLoginEnabledInput.checked = Boolean(settings.autoLoginEnabled);
   sessionTimerEnabledInput.checked = Boolean(settings.sessionTimerEnabled);
   sessionTimeoutInput.value = settings.sessionTimeout || 30;
+  autoOpenAccordionInput.checked = Boolean(settings.autoOpenAccordion);
 }
 
 async function saveSettings(event) {
@@ -35,7 +38,8 @@ async function saveSettings(event) {
     password: passwordInput.value,
     autoLoginEnabled: autoLoginEnabledInput.checked,
     sessionTimerEnabled: sessionTimerEnabledInput.checked,
-    sessionTimeout: parseInt(sessionTimeoutInput.value, 10) || 30
+    sessionTimeout: parseInt(sessionTimeoutInput.value, 10) || 30,
+    autoOpenAccordion: autoOpenAccordionInput.checked
   });
 
   statusElement.textContent = "保存しました。";

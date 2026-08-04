@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "CoursePower Extensions",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "CoursePowerの拡張機能です。Firefoxのみ動作します。",
   "browser_action": {
     "default_title": "CoursePower",
@@ -26,6 +26,7 @@
         "src/content/autologin.js",
         "src/content/bulk-download.js",
         "src/content/session-timer.js",
+        "src/content/auto-accordion.js",
         "src/content/main.js"
       ],
       "run_at": "document_idle",
