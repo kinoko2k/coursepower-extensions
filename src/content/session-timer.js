@@ -37,7 +37,12 @@ function createSessionTimerPopup() {
   closeBtn.style.color = "#9ca3af";
   closeBtn.style.padding = "0";
   closeBtn.style.lineHeight = "1";
-  closeBtn.onclick = () => popup.remove();
+  closeBtn.addEventListener("click", () => {
+    popup.remove();
+    if (sessionTimerPopupElement === popup) {
+      sessionTimerPopupElement = null;
+    }
+  });
   popup.appendChild(closeBtn);
 
   document.body.appendChild(popup);
@@ -73,19 +78,27 @@ async function runSessionTimer() {
   });
 
   if (!settings.sessionTimerEnabled) {
-    if (sessionTimerIntervalId) {
-      clearInterval(sessionTimerIntervalId);
-    }
+    if (sessionTimerIntervalId) clearInterval(sessionTimerIntervalId);
     return;
   }
 
-  const isLogin = isTargetLoginPage(settings.loginPageUrl);
+  const target = typeof parseLoginPageSetting === "function" ? parseLoginPageSetting(settings.loginPageUrl) : null;
+  if (target && target.origin) {
+    if (window.location.origin !== target.origin) {
+      return;
+    }
+  } else {
+    const path = window.location.pathname.toLowerCase();
+    if (!path.includes('/lms') && !path.includes('coursepower')) {
+      return;
+    }
+  }
+
+  const isLogin = typeof isTargetLoginPage === "function" ? isTargetLoginPage(settings.loginPageUrl) : false;
 
   if (isLogin) {
     await api.storage.local.set({ loginTime: 0 });
-    if (sessionTimerIntervalId) {
-      clearInterval(sessionTimerIntervalId);
-    }
+    if (sessionTimerIntervalId) clearInterval(sessionTimerIntervalId);
     return;
   }
 
