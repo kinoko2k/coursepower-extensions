@@ -1,6 +1,6 @@
 # CoursePower Extensions
 
-CoursePowerの各種機能を強化・改善する拡張機能です。
+CoursePowerの各種機能を強化・改善する拡張機能です。<br />
 Google Chrome および Firefox の両ブラウザで動作します。
 
 ## 主な機能
