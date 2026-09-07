@@ -1,5 +1,6 @@
 function isCorsCollPage() {
-  return window.location.pathname.toLowerCase().includes("corscoll");
+  const path = window.location.pathname.toLowerCase();
+  return path.includes("corscoll") || path.includes("dolinkkougi");
 }
 
 function updatePanelStatus(text) {
@@ -173,7 +174,6 @@ function createStyledButton(id, text, styles, onClick) {
 }
 
 function setupCorsCollBulkDownloadPanel() {
-  if (window.top !== window) return;
 
   const isActive = sessionStorage.getItem("cp_bulk_read_active") === "true";
 
@@ -256,6 +256,44 @@ function setupCorsCollBulkDownloadPanel() {
       fontSize: "11px"
     });
     status.textContent = "待機中";
+
+    const updateButtonStates = () => {
+      if (sessionStorage.getItem("cp_bulk_read_active") === "true") return;
+      
+      const allLinks = parseMaterialLinks();
+      const unreadLinks = parseUnreadMaterialLinks();
+      
+      const setBtnState = (btn, count) => {
+        if (!btn) return;
+        if (count === 0) {
+          btn.disabled = true;
+          btn.style.opacity = "0.4";
+          btn.style.cursor = "not-allowed";
+        } else {
+          btn.disabled = false;
+          btn.style.opacity = "1";
+          btn.style.cursor = "pointer";
+        }
+      };
+      
+      setBtnState(button, unreadLinks.length);
+      setBtnState(allBtn, allLinks.length);
+      
+      if (allLinks.length === 0) {
+        status.textContent = "ダウンロード可能な資料がありません";
+      } else {
+        status.textContent = `待機中 (全資料: ${allLinks.length}件 / 未参照: ${unreadLinks.length}件)`;
+      }
+    };
+
+    updateButtonStates();
+    const btnStateInterval = setInterval(() => {
+      if (!document.getElementById(BULK_PANEL_ID)) {
+        clearInterval(btnStateInterval);
+        return;
+      }
+      updateButtonStates();
+    }, 1000);
 
     btnGroup.appendChild(button);
     btnGroup.appendChild(allBtn);
