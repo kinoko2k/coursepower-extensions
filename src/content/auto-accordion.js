@@ -1,6 +1,6 @@
 async function runAutoAccordion() {
   const settings = await api.storage.local.get({
-    autoOpenAccordion: false
+    autoOpenAccordion: true
   });
   
   if (!settings.autoOpenAccordion) {

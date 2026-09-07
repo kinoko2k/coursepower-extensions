@@ -16,7 +16,7 @@ const DEFAULT_SETTINGS = {
   autoLoginEnabled: false,
   sessionTimerEnabled: true,
   sessionTimeout: 30,
-  autoOpenAccordion: false
+  autoOpenAccordion: true
 };
 
 async function loadSettings() {
