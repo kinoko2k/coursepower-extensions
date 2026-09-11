@@ -128,17 +128,36 @@ async function runAutoLogin() {
     loginPageUrl: DEFAULT_LOGIN_PAGE_URL,
     userId: "",
     password: "",
-    autoLoginEnabled: false
+    autoLoginEnabled: false,
+    autoLoginAttempts: 0
   });
 
   if (!isTargetLoginPage(settings.loginPageUrl)) {
     clearActiveCountdown();
     stopActiveObserver();
+    const currentPath = window.location.pathname;
+    if (settings.autoLoginAttempts > 0 && !currentPath.includes('/error/')) {
+      await api.storage.local.set({ autoLoginAttempts: 0 });
+    }
     return;
   }
 
   if (!settings.autoLoginEnabled || !settings.userId || !settings.password) {
     clearActiveCountdown();
+    stopActiveObserver();
+    return;
+  }
+
+  if (settings.autoLoginAttempts >= 3) {
+    await api.storage.local.set({ autoLoginEnabled: false, autoLoginAttempts: 0 });
+    const popup = createCountdownPopup();
+    popup.textContent = "自動ログインに3回失敗したため、機能を無効にしました。";
+    popup.style.background = "#dc2626";
+    window.setTimeout(() => {
+      if (activePopupElement === popup) {
+        clearActiveCountdown();
+      }
+    }, 5000);
     stopActiveObserver();
     return;
   }
@@ -154,7 +173,9 @@ async function runAutoLogin() {
       popup.textContent = `自動ログインまで ${remainingSeconds} 秒`;
     };
 
-    const executeLogin = () => {
+    const executeLogin = async () => {
+      await api.storage.local.set({ autoLoginAttempts: (settings.autoLoginAttempts || 0) + 1 });
+
       fillCredentials(userIdInput, passwordInput, settings.userId, settings.password);
 
       const loginButton = loginForm.querySelector('button[name="loginButton"]');

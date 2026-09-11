@@ -39,7 +39,8 @@ async function saveSettings(event) {
     autoLoginEnabled: autoLoginEnabledInput.checked,
     sessionTimerEnabled: sessionTimerEnabledInput.checked,
     sessionTimeout: parseInt(sessionTimeoutInput.value, 10) || 30,
-    autoOpenAccordion: autoOpenAccordionInput.checked
+    autoOpenAccordion: autoOpenAccordionInput.checked,
+    autoLoginAttempts: 0
   });
 
   statusElement.textContent = "保存しました。";
