@@ -51,3 +51,4 @@ jobs:
           tag_name: ${{ github.event.inputs.tag_name || github.ref_name }}
           files: coursepower-extensions.zip
           generate_release_notes: true
+          prerelease: true
