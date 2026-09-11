@@ -25,6 +25,7 @@ function installUrlChangeHooks() {
     if (typeof runSessionTimer === "function") runSessionTimer();
     if (typeof runAutoAccordion === "function") runAutoAccordion();
     if (typeof runErrorRedirect === "function") runErrorRedirect();
+    if (typeof setupFavicon === "function") setupFavicon();
   });
 }
 
@@ -34,3 +35,4 @@ setupCorsCollBulkDownloadPanel();
 if (typeof runSessionTimer === "function") runSessionTimer();
 if (typeof runAutoAccordion === "function") runAutoAccordion();
 if (typeof runErrorRedirect === "function") runErrorRedirect();
+if (typeof setupFavicon === "function") setupFavicon();

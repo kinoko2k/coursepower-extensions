@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "CoursePower Extensions",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "CoursePowerの拡張機能です。Firefoxをメインとしていますが、Chromeでも使用可能です。",
   "action": {
     "default_title": "CoursePower",
@@ -29,6 +29,7 @@
         "src/content/session-timer.js",
         "src/content/auto-accordion.js",
         "src/content/error-redirect.js",
+        "src/content/favicon.js",
         "src/content/main.js"
       ],
       "run_at": "document_idle",
