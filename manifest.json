@@ -28,6 +28,7 @@
         "src/content/bulk-download.js",
         "src/content/session-timer.js",
         "src/content/auto-accordion.js",
+        "src/content/error-redirect.js",
         "src/content/main.js"
       ],
       "run_at": "document_idle",

@@ -24,6 +24,7 @@ function installUrlChangeHooks() {
     setupCorsCollBulkDownloadPanel();
     if (typeof runSessionTimer === "function") runSessionTimer();
     if (typeof runAutoAccordion === "function") runAutoAccordion();
+    if (typeof runErrorRedirect === "function") runErrorRedirect();
   });
 }
 
@@ -32,3 +33,4 @@ runAutoLogin();
 setupCorsCollBulkDownloadPanel();
 if (typeof runSessionTimer === "function") runSessionTimer();
 if (typeof runAutoAccordion === "function") runAutoAccordion();
+if (typeof runErrorRedirect === "function") runErrorRedirect();
