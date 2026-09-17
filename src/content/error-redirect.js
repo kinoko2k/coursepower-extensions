@@ -1,20 +1,35 @@
 async function runErrorRedirect() {
-  const currentPath = window.location.pathname;
-  if (currentPath.includes('error/notLogin')) {
-    const settings = await api.storage.local.get({
-      loginPageUrl: DEFAULT_LOGIN_PAGE_URL
-    });
-    
-    let targetUrl = settings.loginPageUrl || DEFAULT_LOGIN_PAGE_URL;
-    
-    if (targetUrl.startsWith('/')) {
-      const prefix = currentPath.substring(0, currentPath.indexOf('error/notLogin'));
-      const cleanPrefix = prefix.endsWith('/') ? prefix.slice(0, -1) : prefix;
-      targetUrl = cleanPrefix + targetUrl;
-    }
-    
-    if (!window.location.href.includes(targetUrl)) {
-      window.location.href = targetUrl;
+  const currentUrl = window.location.href;
+  if (currentUrl.includes('/error/notLogin')) {
+    try {
+      const settings = await api.storage.local.get({ loginPageUrl: DEFAULT_LOGIN_PAGE_URL });
+      let targetUrl = settings.loginPageUrl || DEFAULT_LOGIN_PAGE_URL;
+      
+      if (targetUrl.startsWith('/')) {
+        const prefixStr = currentUrl.split('/error/notLogin')[0];
+        const urlObj = new URL(prefixStr);
+        let basePath = urlObj.pathname;
+        if (basePath.endsWith('/')) {
+          basePath = basePath.slice(0, -1);
+        }
+        targetUrl = basePath + targetUrl;
+      }
+      
+      if (!currentUrl.includes(targetUrl)) {
+        window.location.replace(targetUrl);
+      }
+    } catch (e) {
+      console.error(e);
+      const prefixStr = currentUrl.split('/error/notLogin')[0];
+      const urlObj = new URL(prefixStr);
+      let basePath = urlObj.pathname;
+      if (basePath.endsWith('/')) {
+        basePath = basePath.slice(0, -1);
+      }
+      const fallbackUrl = basePath + DEFAULT_LOGIN_PAGE_URL;
+      if (!currentUrl.includes(fallbackUrl)) {
+        window.location.replace(fallbackUrl);
+      }
     }
   }
 }
