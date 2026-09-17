@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "CoursePower Extensions",
   "version": "1.1.1",
-  "description": "CoursePowerの拡張機能です。Firefoxをメインとしていますが、Chromeでも使用可能です。",
+  "description": "CoursePowerの拡張機能です。Firefoxのみ動作可能です。",
   "browser_action": {
     "default_title": "CoursePower",
     "default_popup": "src/popup/popup.html"
