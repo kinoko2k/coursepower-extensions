@@ -1,9 +1,9 @@
 {
-  "manifest_version": 3,
+  "manifest_version": 2,
   "name": "CoursePower Extensions",
   "version": "1.1.0",
   "description": "CoursePowerの拡張機能です。Firefoxをメインとしていますが、Chromeでも使用可能です。",
-  "action": {
+  "browser_action": {
     "default_title": "CoursePower",
     "default_popup": "src/popup/popup.html"
   },
@@ -12,7 +12,6 @@
     "open_in_tab": false
   },
   "background": {
-    "service_worker": "src/background/background.js",
     "scripts": [
       "src/background/background.js"
     ]
@@ -37,10 +36,7 @@
     }
   ],
   "permissions": [
-    "storage"
-  ],
-  "host_permissions": [
-    "*://*/*",
+    "storage",
     "<all_urls>"
   ],
   "browser_specific_settings": {
