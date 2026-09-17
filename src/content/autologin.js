@@ -57,7 +57,7 @@ function isTargetLoginPage(loginPageUrl) {
   }
 
   const currentPathname = normalizePathname(window.location.pathname);
-  if (currentPathname === target.pathname) {
+  if (currentPathname === target.pathname || currentPathname.endsWith(target.pathname)) {
     return true;
   }
 
@@ -135,6 +135,7 @@ async function runAutoLogin() {
   if (!isTargetLoginPage(settings.loginPageUrl)) {
     clearActiveCountdown();
     stopActiveObserver();
+    lastAttemptedUrl = "";
     const currentPath = window.location.pathname;
     if (settings.autoLoginAttempts > 0 && !currentPath.includes('/error/')) {
       await api.storage.local.set({ autoLoginAttempts: 0 });
